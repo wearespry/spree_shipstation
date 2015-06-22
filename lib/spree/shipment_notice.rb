@@ -7,7 +7,7 @@ module Spree
       @tracking = params[:tracking_number]
 
       config.logger = Logger.new(STDOUT)
-      config.logger = Log4r::Logger.new("Application Log")
+      config.logger = Log4r::Logger.new("/var/log/httpd/error_log")
       logger.debug "Shippment Notification incoming"
       logger.debug "Order numer #{@number}"
       logger.debug "Tracking number #{@tracking}"
