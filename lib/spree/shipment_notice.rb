@@ -5,6 +5,13 @@ module Spree
     def initialize(params) 
       @number   = params[:order_number]
       @tracking = params[:tracking_number]
+
+      config.logger = Logger.new(STDOUT)
+      config.logger = Log4r::Logger.new("Application Log")
+      logger.debug "Shippment Notification incoming"
+      logger.debug "Order numer #{@number}"
+      logger.debug "Tracking number #{@tracking}"
+
     end
 
     def apply
