@@ -6,11 +6,7 @@ module Spree
       @number   = params[:order_number]
       @tracking = params[:tracking_number]
 
-      config.logger = Logger.new(STDOUT)
-      config.logger = Log4r::Logger.new("/var/log/httpd/error_log")
-      logger.debug "Shippment Notification incoming"
-      logger.debug "Order numer #{@number}"
-      logger.debug "Tracking number #{@tracking}"
+      Rails.logger.error(@number)
 
     end
 
@@ -24,6 +20,7 @@ module Spree
     def locate
       if Spree::Config.shipstation_number == :order
         order = Spree::Order.find_by_number(@number)
+        Rails.logger.error(order)
         @shipment = order.try(:shipment)
       else
         @shipment = Spree::Shipment.find_by_number(@number)
