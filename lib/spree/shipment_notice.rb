@@ -5,9 +5,6 @@ module Spree
     def initialize(params) 
       @number   = params[:order_number]
       @tracking = params[:tracking_number]
-
-      Rails.logger.error(@number)
-
     end
 
     def apply
@@ -20,7 +17,6 @@ module Spree
     def locate
       if Spree::Config.shipstation_number == :order
         order = Spree::Order.find_by_number(@number)
-        Rails.logger.error(order)
         @shipment = order.try(:shipment)
       else
         @shipment = Spree::Shipment.find_by_number(@number)
@@ -45,7 +41,6 @@ module Spree
     end
     
     def handle_error(error)
-      Rails.logger.error(error)
       @error = I18n.t(:import_tracking_error, error: error.to_s)
       false
     end
