@@ -19,6 +19,18 @@ module Spree
       notice = Spree::ShipmentNotice.new(params)
 
       if notice.apply
+
+        logger.info 'ShipNotify Params:'
+        logger.info params
+        logger.info ''
+
+        ord = Spree::Shipment.find_by_number(params[:order_number]).order
+
+        ord.update_columns(
+          shipment_state: 'shipped',
+          updated_at: Time.now,
+        )
+
         render(text: 'success')
       else
         render(text: notice.error, status: :bad_request)
